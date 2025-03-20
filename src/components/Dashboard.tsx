@@ -154,8 +154,244 @@ const Dashboard: React.FC = () => {
             </TabsTrigger>
           </TabsList>
 
-          {/* Rest of the content remains the same as in the previous implementation */}
-          {/* ... (previous TabsContent implementation) ... */}
+          {/* Objetivo 1: Entendimiento de la Práctica */}
+          <TabsContent value="understanding" className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Conocimiento General de la Práctica (Radar Chart) */}
+              <Card className="bg-secondary/20 border border-accent/20">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">Conocimiento de la Práctica</CardTitle>
+                  <p className="text-xs text-gray-400">Source: Consulting Survey</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart 
+                        cx="50%" 
+                        cy="50%" 
+                        outerRadius="80%" 
+                        data={[
+                          { subject: 'Conocimiento General', A: periodData.surveys.generalKnowledge, fullMark: 100 },
+                          { subject: 'Conocimiento Líderes', A: periodData.surveys.leadersKnowledge, fullMark: 100 },
+                          { subject: 'Valor para Clientes', A: periodData.surveys.clientValue, fullMark: 100 },
+                          { subject: 'Valor para FAS', A: periodData.surveys.internalValue, fullMark: 100 },
+                        ]}
+                      >
+                        <PolarGrid stroke="#333" />
+                        <PolarAngleAxis dataKey="subject" stroke="#888" fontSize={10} />
+                        <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#888" fontSize={8} />
+                        <Radar 
+                          name="Nivel de Conocimiento" 
+                          dataKey="A" 
+                          stroke={colors.accent} 
+                          fill={colors.accent} 
+                          fillOpacity={0.3} 
+                        />
+                        <Tooltip />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Visitas al Site de la Práctica (Line Chart) */}
+              <Card className="bg-secondary/20 border border-accent/20">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">Visitas al Site</CardTitle>
+                  <p className="text-xs text-gray-400">Source: Web Analytics</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart 
+                        data={periodData.visitData.monthlyVisits}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                        <XAxis dataKey="name" stroke="#888" />
+                        <YAxis stroke="#888" />
+                        <Tooltip />
+                        <Line 
+                          type="monotone" 
+                          dataKey="value" 
+                          name="Visitas"
+                          stroke={colors.primary} 
+                          strokeWidth={3} 
+                          dot={{ r: 6 }} 
+                          activeDot={{ r: 8 }} 
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Objetivo 2: Engagement de la Práctica */}
+          <TabsContent value="engagement" className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Interacción con Práctica y Otras Prácticas (Line Chart) */}
+              <Card className="bg-secondary/20 border border-primary/20">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">Interacción con Prácticas</CardTitle>
+                  <p className="text-xs text-gray-400">Source: Consulting Survey</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart 
+                        data={periodData.interactionData.practiceInteractions}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                        <XAxis dataKey="name" stroke="#888" />
+                        <YAxis stroke="#888" />
+                        <Tooltip />
+                        <Legend />
+                        <Line 
+                          type="monotone" 
+                          dataKey="consulting" 
+                          name="Con Consulting" 
+                          stroke={colors.accent} 
+                          strokeWidth={3} 
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="otras" 
+                          name="Con Otras Prácticas" 
+                          stroke={colors.primary} 
+                          strokeWidth={3} 
+                          strokeDasharray="5 5" 
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Participación en Eventos (Bar Chart) */}
+              <Card className="bg-secondary/20 border border-primary/20">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">Participación en Eventos</CardTitle>
+                  <p className="text-xs text-gray-400">Source: Google Cloud</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart 
+                        data={periodData.eventsData.participationByEvent}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                        <XAxis dataKey="name" stroke="#888" />
+                        <YAxis stroke="#888" />
+                        <Tooltip />
+                        <Legend />
+                        <Bar 
+                          dataKey="attended" 
+                          name="Asistentes" 
+                          fill={colors.accent} 
+                          radius={[4, 4, 0, 0]} 
+                        />
+                        <Bar 
+                          dataKey="total" 
+                          name="Capacidad" 
+                          fill="#333" 
+                          radius={[4, 4, 0, 0]} 
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Objetivo 3: Usabilidad de la Práctica */}
+          <TabsContent value="usability" className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Uso de Recursos (PieChart) */}
+              <Card className="bg-secondary/20 border border-accent/20">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">Uso de Recursos</CardTitle>
+                  <p className="text-xs text-gray-400">Source: Consulting Survey</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={periodData.resourcesData.resourceUsage}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={90}
+                          paddingAngle={3}
+                          dataKey="value"
+                          label={({name, percent}) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        >
+                          {periodData.resourcesData.resourceUsage.map((entry, index) => (
+                            <Cell 
+                              key={`cell-${index}`} 
+                              fill={[colors.accent, colors.primary, colors.accentLight, colors.success][index % 4]} 
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Tendencia de Uso de Recursos (Line Chart) */}
+              <Card className="bg-secondary/20 border border-accent/20">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">Tendencia de Uso de Recursos</CardTitle>
+                  <p className="text-xs text-gray-400">Source: Web Analytics & Google Cloud</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart 
+                        data={periodData.resourcesData.resourceUsageTrend}
+                        margin={{ top: 10, right: 30, left: 0, bottom: 10 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                        <XAxis dataKey="name" stroke="#888" />
+                        <YAxis stroke="#888" />
+                        <Tooltip />
+                        <Legend />
+                        <Line 
+                          type="monotone" 
+                          dataKey="vistas" 
+                          name="Vistas" 
+                          stroke={colors.accent} 
+                          strokeWidth={2} 
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="descargas" 
+                          name="Descargas" 
+                          stroke={colors.primary} 
+                          strokeWidth={2} 
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="copias" 
+                          name="Copias" 
+                          stroke={colors.accentLight} 
+                          strokeWidth={2} 
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
         </Tabs>
 
         {/* Footer */}
